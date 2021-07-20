@@ -16,6 +16,8 @@ limitations under the License.
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 )
@@ -44,35 +46,53 @@ func init() {
 	// webCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
-func showSelectStyle() {
+func showSelectStyle() string {
 	items := []string{"With SASS", "With CSS"}
 	index := -1
 
-	for index < 0 {
+	var result string
 
-		template := &promptui.SelectTemplates{
-			Label:    "{{ . }}",
-			Active:   "\U000027A4 {{ .| cyan }}",
-			Inactive: "  {{ . | blue }}",
-			Help:     "[Use arrow keys]",
-		}
-
-		prompt := promptui.Select{
-			Label:     "?" + "" + " Choose one type of web boilerplate",
-			Items:     items,
-			Templates: template,
-		}
-
-		_, result, err, := prompt.Run()
-
-		if err != nil {
-			fmt.Printf("Prompt failed%v\n", err)
-		}
-
-		fmt.Println(result)
-
+	template := &promptui.SelectTemplates{
+		Label:    "{{ . }}",
+		Active:   "\U000027A4 {{ .| cyan }}",
+		Inactive: "  {{ . | blue }}",
+		Help:     "[Use arrow keys]",
 	}
 
+	prompt := promptui.Select{
+		Label:     "?" + "" + " Choose one type of web boilerplate",
+		Items:     items,
+		Templates: template,
+	}
 
-	
+	index, result, err := prompt.Run()
+
+	if index == -1 {
+		items = append(items, result)
+	}
+
+	if err != nil {
+		fmt.Printf("Prompt failed %v\n", err)
+	}
+
+	fmt.Println(result)
+	return result
+}
+
+func validateSelect() {
+
+	switch showSelectStyle() {
+	case "With CSS":
+		createCssBoilerplate()
+	case "With SASS":
+		createSassBoilerplate()
+	}
+}
+
+func createCssBoilerplate() {
+
+}
+
+func createSassBoilerplate() {
+
 }
