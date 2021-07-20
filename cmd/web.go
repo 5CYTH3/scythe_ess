@@ -82,23 +82,91 @@ func createCssBoilerplate() {
 
 	var resp string
 
-	fmt.Println("CSS BOILERPLATE FUNCTION CALLED")
 	color.Blue("What is the name of your project ? : ")
 	fmt.Scanf("%s", &resp)
 
-	err := os.MkdirAll(resp+"/css/", os.ModePerm)
+	// Create main root file
+	err := os.MkdirAll(resp, os.ModePerm)
+
+	// Create subdir
+	os.MkdirAll(resp+"/css/", os.ModePerm)
+	os.Create(resp + "css/style.css")
 	os.MkdirAll(resp+"/res/images", os.ModePerm)
 	os.MkdirAll(resp+"/res/video", os.ModePerm)
+
+	// Create style.css file
+	createStylesheetFile(resp + "/css/style.css")
+
+	// Create index.html file
+	createIndexFile(resp + "/index.html")
 
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	cmd := exec.Command("code", ".")
+	cmd := exec.Command("code", resp)
 	cmd.Start()
 }
 
 func createSassBoilerplate() {
 	fmt.Println("SASS BOILERPLATE FUNCTION CALLED")
+
+}
+
+func createStylesheetFile(path string) {
+
+	file, erro := os.Create(path)
+	if erro != nil {
+		fmt.Println(erro)
+	}
+	file.WriteString(
+		`* {
+	padding: 0;
+	margin: 0;
+}
+body {
+	width: 100%;
+	list-style-type: none;
+	text-decoration: none;
+}
+`)
+
+	defer file.Close()
+
+}
+
+func createIndexFile(path string) {
+	file, erro := os.Create(path)
+
+	if erro != nil {
+		fmt.Println(erro)
+	}
+
+	file.WriteString(
+		`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+		<header class="header" id="header">
+			<h1 id="hero__title">
+			<ul id="nav">
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</header>
+		<section class="home__section" id="home">
+		
+		</section>
+	</main>
+</body>
+</html>
+`)
 
 }
