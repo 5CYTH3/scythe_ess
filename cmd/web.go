@@ -50,7 +50,7 @@ func showSelectStyle() string {
 	}
 
 	prompt := promptui.Select{
-		Label:     "?" + "" + " Choose one type of web boilerplate",
+		Label:     "\n?" + "" + " Choose one type of web boilerplate",
 		Items:     items,
 		Templates: template,
 	}
@@ -84,7 +84,7 @@ func createCssBoilerplate() {
 
 	var resp string
 
-	color.Blue("What is the name of your project ? : ")
+	color.Blue("\nWhat is the name of your project ? : ")
 	fmt.Scanf("%s", &resp)
 
 	// Create main root file
@@ -172,7 +172,7 @@ func createIndexFile(path string) {
 func createSassBoilerplate() {
 	var resp string
 
-	color.Blue("What is the name of your project ? : ")
+	color.Blue("\nWhat is the name of your project ? : ")
 	fmt.Scanf("%s", &resp)
 
 	// Create main root file
