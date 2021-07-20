@@ -14,7 +14,7 @@ var createCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		color.Blue("\nUsage : command <commands> [@argument]")
 		fmt.Println("Here are the types of projects you can create :")
-		fmt.Println(" - Web Boilerplate (web-boilerplate)\n - Golang project (go)\n")
+		fmt.Println(" - Web Boilerplate (<command> = web)\n - Golang project (<command> = go)\n")
 	},
 }
 

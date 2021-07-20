@@ -1,5 +1,7 @@
 package cmd
 
+// TODO : Possibility to init a repository with a boolean
+
 import (
 	"fmt"
 	"os"
@@ -87,10 +89,12 @@ func createCssBoilerplate() {
 
 	// Create main root file
 	err := os.MkdirAll(resp, os.ModePerm)
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	// Create subdir
 	os.MkdirAll(resp+"/css/", os.ModePerm)
-	os.Create(resp + "css/style.css")
 	os.MkdirAll(resp+"/res/images", os.ModePerm)
 	os.MkdirAll(resp+"/res/video", os.ModePerm)
 
@@ -100,17 +104,9 @@ func createCssBoilerplate() {
 	// Create index.html file
 	createIndexFile(resp + "/index.html")
 
-	if err != nil {
-		fmt.Println(err)
-	}
-
+	// Open VSCODE
 	cmd := exec.Command("code", resp)
 	cmd.Start()
-}
-
-func createSassBoilerplate() {
-	fmt.Println("SASS BOILERPLATE FUNCTION CALLED")
-
 }
 
 func createStylesheetFile(path string) {
@@ -169,4 +165,62 @@ func createIndexFile(path string) {
 </html>
 `)
 
+	defer file.Close()
+
+}
+
+func createSassBoilerplate() {
+	var resp string
+
+	color.Blue("What is the name of your project ? : ")
+	fmt.Scanf("%s", &resp)
+
+	// Create main root file
+	err := os.MkdirAll(resp, os.ModePerm)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	// Created all folders
+	os.MkdirAll(resp+"/css/", os.ModePerm)
+	os.MkdirAll(resp+"/sass/models", os.ModePerm)
+	os.MkdirAll(resp+"/sass/components", os.ModePerm)
+	os.MkdirAll(resp+"/sass/pages", os.ModePerm)
+	os.MkdirAll(resp+"/res/images", os.ModePerm)
+	os.MkdirAll(resp+"/res/video", os.ModePerm)
+
+	// Create index.html file
+	createIndexFile(resp + "/index.html")
+
+	// Create SCSS Architecture
+	createAwesomeArchitecture(resp + "/sass")
+
+	// Open VSCODE
+	cmd := exec.Command("code", resp)
+	cmd.Start()
+}
+
+func createAwesomeArchitecture(root string) {
+	file, erro := os.Create(root + "/style.scss")
+	if erro != nil {
+		fmt.Println(erro)
+	}
+
+	file.WriteString(`
+@import "components/_var.scss";
+@import "components/_mixins.scss";
+
+@import "pages/index.scss";
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	width: 100%;
+	list-style-type: none;
+	text-decoration: none;
+}
+	`)
 }

@@ -1,0 +1,16 @@
+@import "components/_var.scss";
+@import "components/_mixins.scss";
+
+@import "pages/index.scss";
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	width: 100%;
+	list-style-type: none;
+	text-decoration: none;
+}
+	
