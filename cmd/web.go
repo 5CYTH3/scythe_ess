@@ -1,23 +1,11 @@
-/*
-Copyright © 2021 NAME HERE <EMAIL ADDRESS>
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
 package cmd
 
 import (
 	"fmt"
+	"os"
+	"os/exec"
 
+	"github.com/fatih/color"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 )
@@ -28,7 +16,7 @@ var webCmd = &cobra.Command{
 	Short: "Allows you to make an html boilerplate with flags",
 	Long:  `You can do HTML boilerplate folder with SASS or without, and with an architecture that I use frequently.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		showSelectStyle()
+		validateSelect()
 	},
 }
 
@@ -75,24 +63,42 @@ func showSelectStyle() string {
 		fmt.Printf("Prompt failed %v\n", err)
 	}
 
-	fmt.Println(result)
 	return result
 }
 
 func validateSelect() {
 
-	switch showSelectStyle() {
-	case "With CSS":
+	typeProject := showSelectStyle()
+
+	if typeProject == "With CSS" {
 		createCssBoilerplate()
-	case "With SASS":
+	} else if typeProject == "With SASS" {
 		createSassBoilerplate()
 	}
+
 }
 
 func createCssBoilerplate() {
 
+	var resp string
+
+	fmt.Println("CSS BOILERPLATE FUNCTION CALLED")
+	color.Blue("What is the name of your project ? : ")
+	fmt.Scanf("%s", &resp)
+
+	err := os.MkdirAll(resp+"/css/", os.ModePerm)
+	os.MkdirAll(resp+"/res/images", os.ModePerm)
+	os.MkdirAll(resp+"/res/video", os.ModePerm)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	cmd := exec.Command("code", ".")
+	cmd.Start()
 }
 
 func createSassBoilerplate() {
+	fmt.Println("SASS BOILERPLATE FUNCTION CALLED")
 
 }
