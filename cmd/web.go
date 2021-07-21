@@ -7,6 +7,8 @@ import (
 	"os"
 	"os/exec"
 
+	archWeb "scythe.fr/cli-scythe/template"
+
 	"github.com/fatih/color"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
@@ -76,171 +78,65 @@ func validateSelect() {
 		fmt.Println(err)
 	}
 
-	if typeProject == "With CSS" {
-		createCssBoilerplate()
-		color.Green("Your CSS project has been generated in " + path)
-	} else if typeProject == "With SASS" {
-		createSassBoilerplate()
+	var rootDir string
+	color.Blue("\nWhat is the name of your project ? : ")
+	fmt.Scanf("%s", &rootDir)
 
-		color.Green("Your SASS project has been generated in " + path)
+	if typeProject == "With CSS" {
+		createCssBoilerplate(rootDir)
+		color.Green("\nYour CSS project has been generated in " + path)
+	} else if typeProject == "With SASS" {
+		createSassBoilerplate(rootDir)
+		color.Green("\nYour SASS project has been generated in " + path)
 	}
+
+	cmd := exec.Command("code", rootDir)
+	cmd.Start()
 
 }
 
-func createCssBoilerplate() {
-
-	var resp string
-
-	color.Blue("\nWhat is the name of your project ? : ")
-	fmt.Scanf("%s", &resp)
+func createCssBoilerplate(rootDir string) {
 
 	// Create main root file
-	err := os.MkdirAll(resp, os.ModePerm)
+	err := os.MkdirAll(rootDir, os.ModePerm)
 	if err != nil {
 		fmt.Println(err)
 	}
+
+	pathList := []string{rootDir + "/css/", rootDir + "/res/images", rootDir + "/res/video"}
 
 	// Create subdir
-	os.MkdirAll(resp+"/css/", os.ModePerm)
-	os.MkdirAll(resp+"/res/images", os.ModePerm)
-	os.MkdirAll(resp+"/res/video", os.ModePerm)
+	for _, currentCreatedDir := range pathList {
+		os.MkdirAll(currentCreatedDir, os.ModePerm)
+
+	}
 
 	// Create style.css file
-	createStylesheetFile(resp + "/css/style.css")
+	archWeb.CreateStylesheetFile(rootDir + "/css/style.css")
 
 	// Create index.html file
-	createIndexFile(resp + "/index.html")
-
-	// Open VSCODE
-	cmd := exec.Command("code", resp)
-	cmd.Start()
-}
-
-func createStylesheetFile(path string) {
-
-	file, erro := os.Create(path)
-	if erro != nil {
-		fmt.Println(erro)
-	}
-	file.WriteString(
-		`* {
-	padding: 0;
-	margin: 0;
-}
-body {
-	width: 100%;
-	list-style-type: none;
-	text-decoration: none;
-}
-`)
-
-	defer file.Close()
+	archWeb.CreateIndexFile(rootDir + "/index.html")
 
 }
 
-func createIndexFile(path string) {
-	file, erro := os.Create(path)
-
-	if erro != nil {
-		fmt.Println(erro)
-	}
-
-	file.WriteString(
-		`<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <main>
-		<header class="header" id="header">
-			<h1 id="hero__title">
-			<ul id="nav">
-				<li></li>
-				<li></li>
-				<li></li>
-			</ul>
-		</header>
-		<section class="home__section" id="home">
-		
-		</section>
-	</main>
-</body>
-</html>
-`)
-
-	defer file.Close()
-
-}
-
-func createSassBoilerplate() {
-	var resp string
-
-	color.Blue("\nWhat is the name of your project ? : ")
-	fmt.Scanf("%s", &resp)
+func createSassBoilerplate(rootDir string) {
 
 	// Create main root file
-	err := os.MkdirAll(resp, os.ModePerm)
+	err := os.MkdirAll(rootDir, os.ModePerm)
 	if err != nil {
 		fmt.Println(err)
 	}
 
+	pathList := []string{rootDir + "/css/", rootDir + "/sass/models", rootDir + "/sass/components", rootDir + "/sass/pages", rootDir + "/res/images", rootDir + "/res/video"}
+
 	// Created all folders
-	os.MkdirAll(resp+"/css/", os.ModePerm)
-	os.MkdirAll(resp+"/sass/models", os.ModePerm)
-	os.MkdirAll(resp+"/sass/components", os.ModePerm)
-	os.MkdirAll(resp+"/sass/pages", os.ModePerm)
-	os.MkdirAll(resp+"/res/images", os.ModePerm)
-	os.MkdirAll(resp+"/res/video", os.ModePerm)
-
-	// Create index.html file
-	createIndexFile(resp + "/index.html")
-
-	// Create SCSS Architecture
-	createAwesomeArchitecture(resp + "/sass")
-
-	// Open VSCODE
-	cmd := exec.Command("code", resp)
-	cmd.Start()
-}
-
-func createAwesomeArchitecture(root string) {
-	file, erro := os.Create(root + "/style.scss")
-	if erro != nil {
-		fmt.Println(erro)
+	for _, createdDirs := range pathList {
+		os.MkdirAll(createdDirs, os.ModePerm)
 	}
 
-	file.WriteString(`/* To compile SASS into CSS, please use this command :
+	// Create index.html file
+	archWeb.CreateIndexFile(rootDir + "/index.html")
 
-	sass sass/style.scss:css/style.css --watch
-
-*/
-
-@import "components/_var.scss";
-@import "components/_mixins.scss";
-
-@import "pages/index.scss";
-
-* {
-	margin: 0;
-	padding: 0;
-}
-
-body {
-	width: 100%;
-	list-style-type: none;
-	text-decoration: none;
-}
-	`)
-
-	defer file.Close()
-
-	// Create others files
-	os.Create(root + "/components/_var.scss")
-	os.Create(root + "/components/_mixins.scss")
-	os.Create(root + "/pages/index.scss")
-
+	// Create SCSS Architecture
+	archWeb.CreateAwesomeArchitecture(rootDir + "/sass")
 }
