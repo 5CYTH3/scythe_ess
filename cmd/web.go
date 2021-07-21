@@ -71,11 +71,18 @@ func showSelectStyle() string {
 func validateSelect() {
 
 	typeProject := showSelectStyle()
+	path, err := os.Getwd()
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	if typeProject == "With CSS" {
 		createCssBoilerplate()
+		color.Green("Your CSS project has been generated in " + path)
 	} else if typeProject == "With SASS" {
 		createSassBoilerplate()
+
+		color.Green("Your SASS project has been generated in " + path)
 	}
 
 }
@@ -206,7 +213,12 @@ func createAwesomeArchitecture(root string) {
 		fmt.Println(erro)
 	}
 
-	file.WriteString(`
+	file.WriteString(`/* To compile SASS into CSS, please use this command :
+
+	sass sass/style.scss:css/style.css --watch
+
+*/
+
 @import "components/_var.scss";
 @import "components/_mixins.scss";
 
@@ -223,4 +235,12 @@ body {
 	text-decoration: none;
 }
 	`)
+
+	defer file.Close()
+
+	// Create others files
+	os.Create(root + "/components/_var.scss")
+	os.Create(root + "/components/_mixins.scss")
+	os.Create(root + "/pages/index.scss")
+
 }
