@@ -7,6 +7,7 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
+	archGo "scythe.fr/cli-scythe/template"
 )
 
 // goprojectCmd represents the goproject command
@@ -45,6 +46,8 @@ func initGoProject(flagState bool) {
 	}
 	cmd := exec.Command("go", "mod", "init")
 	cmd.Start()
+	cmdCode := exec.Command("code", rootDir)
+	cmdCode.Start()
 
 }
 
@@ -53,6 +56,9 @@ func createGoProject(rootDir string) {
 	if err != nil {
 		fmt.Println(err)
 	}
+
+	archGo.GoProjectContent(rootDir)
+
 }
 
 func createGoComplexProject(rootDir string) {
@@ -61,6 +67,11 @@ func createGoComplexProject(rootDir string) {
 		fmt.Println(err)
 	}
 
-	// dirList := []string{"/vendor", "/interfaces"}
+	dirList := []string{"/vendor", "/interfaces"}
 
+	for _, createDirs := range dirList {
+		os.MkdirAll(createDirs, os.ModePerm)
+	}
+
+	archGo.GoProjectContent(rootDir)
 }
