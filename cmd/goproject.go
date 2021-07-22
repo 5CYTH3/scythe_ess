@@ -70,7 +70,7 @@ func createGoComplexProject(rootDir string) {
 	dirList := []string{"/vendor", "/interfaces"}
 
 	for _, createDirs := range dirList {
-		os.MkdirAll(createDirs, os.ModePerm)
+		os.MkdirAll(rootDir+createDirs, os.ModePerm)
 	}
 
 	archGo.GoProjectContent(rootDir)
