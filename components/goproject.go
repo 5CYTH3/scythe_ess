@@ -5,16 +5,11 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/fatih/color"
 	archGo "scythe.fr/cli-scythe/template"
 )
 
-func CreateGoProject() {
+func CreateGoProject(rootDir string) {
 
-	var rootDir string
-
-	color.Blue("\nWhat is the name of your project ? : ")
-	fmt.Scanf("%s", &rootDir)
 	createGoArchitecture(rootDir)
 	cmd := exec.Command("go", "mod", "init")
 	cmd.Start()

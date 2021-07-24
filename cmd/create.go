@@ -50,7 +50,7 @@ func showPrompt() string {
 	}
 
 	prompt := promptui.Select{
-		Label:     "\n?" + "" + " Choose one type of web boilerplate",
+		Label:     "\n?" + "" + " Choose one type of project",
 		Items:     items,
 		Templates: template,
 	}
@@ -87,11 +87,11 @@ func promptValidation() {
 		projects.CreateSassBoilerplate(rootDir)
 		color.Green("\nYour SASS project has been generated in " + path)
 	} else if typeProject == "PHP + SASS Web Boilerplate" {
-		projects.CreatePhpProject()
+		projects.CreatePhpProject(rootDir)
 	} else if typeProject == "Discord.js pre-built project" {
-		projects.CreateDjsProject()
+		projects.CreateDjsProject(rootDir)
 	} else if typeProject == "Golang pre-built project" {
-		projects.CreateGoProject()
+		projects.CreateGoProject(rootDir)
 	}
 
 	exec.Command("code", rootDir).Start()

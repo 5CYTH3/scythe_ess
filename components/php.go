@@ -1,19 +1,12 @@
 package components
 
 import (
-	"fmt"
 	"os"
 
-	"github.com/fatih/color"
 	archPHP "scythe.fr/cli-scythe/template"
 )
 
-func CreatePhpProject() {
-
-	var rootDir string
-
-	color.Blue("What is the name of your project? : ")
-	fmt.Scanf("%s", &rootDir)
+func CreatePhpProject(rootDir string) {
 
 	err := os.Mkdir(rootDir, os.ModePerm)
 

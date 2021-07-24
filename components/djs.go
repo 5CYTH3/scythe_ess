@@ -1,21 +1,13 @@
 package components
 
 import (
-	"fmt"
 	"os"
 	"os/exec"
-
-	"github.com/fatih/color"
 )
 
 // .env
 
-func CreateDjsProject() {
-
-	var rootDir string
-
-	color.Blue("What is the name of your project? : ")
-	fmt.Scanf("%s", &rootDir)
+func CreateDjsProject(rootDir string) {
 
 	err := os.Mkdir(rootDir, os.ModePerm)
 
