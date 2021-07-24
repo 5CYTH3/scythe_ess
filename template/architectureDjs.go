@@ -1,7 +1,6 @@
 package template
 
-import "os"
-
+/*
 func djsProjectContent(rootPath string) {
 
 	file, _ := os.Create(rootPath + "/index.js")
@@ -27,3 +26,4 @@ for (const file of commandFiles) {
 }`)
 
 }
+*/

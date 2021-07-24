@@ -17,7 +17,10 @@ package cmd
 
 import (
 	"fmt"
+	"os"
+	"os/exec"
 
+	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
 
@@ -32,20 +35,52 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("php called")
+		createPhpProject()
 	},
 }
 
 func init() {
 	createCmd.AddCommand(phpCmd)
 
-	// Here you will define your flags and configuration settings.
+}
 
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// phpCmd.PersistentFlags().String("foo", "", "A help for foo")
+func createPhpProject() {
 
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// phpCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	var rootDir string
+
+	color.Blue("What is the name of your project? : ")
+	fmt.Scanf("%s", &rootDir)
+
+	err := os.Mkdir(rootDir, os.ModePerm)
+
+	if err != nil {
+		panic(err)
+	}
+
+	createPhpArchitecture(rootDir)
+
+	exec.Command("code", rootDir).Start()
+
+}
+
+func createPhpArchitecture(rootPath string) {
+
+	createDirs := []string{
+		rootPath + "/sass/pages",
+		rootPath + "/sass/components",
+		rootPath + "/sass/models",
+		rootPath + "/css",
+		rootPath + "/js",
+		rootPath + "/php/components",
+		rootPath + "/php/models",
+		rootPath + "/php/controllers",
+		rootPath + "/php/pages",
+	}
+
+	for _, dir := range createDirs {
+
+		os.MkdirAll(dir, os.ModePerm)
+
+	}
+
 }

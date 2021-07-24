@@ -2,7 +2,6 @@ package cmd
 
 // TODO : Add PHP projects (with SASS)
 // ! Maybe put the prompt on create command to choose which project create with it. But flags will be useless !?
-// TODO: Add DJS projects
 // TODO : Add a persistent flag to init a repository
 
 import (
