@@ -118,7 +118,7 @@ func createSassBoilerplate(rootDir string) {
 		fmt.Println(err)
 	}
 
-	pathList := []string{rootDir + "/css/", rootDir + "/sass/models", rootDir + "/sass/components", rootDir + "/sass/pages", rootDir + "/res/images", rootDir + "/res/video"}
+	pathList := []string{rootDir + "/css/", rootDir + "/sass/models", rootDir + "/sass/components", rootDir + "/sass/pages", rootDir + "/res/images", rootDir + "/res/video", rootDir + "/js"}
 
 	// Created all folders
 	for _, createdDirs := range pathList {
