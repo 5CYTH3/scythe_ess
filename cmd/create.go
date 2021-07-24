@@ -32,7 +32,7 @@ func init() {
 
 func showPrompt() string {
 	items := []string{
-		"{{ .| cyan }} CSS Web Boilerplate",
+		"{{ . | cyan }} CSS Web Boilerplate",
 		"SASS Web Boilerplate",
 		"PHP + SASS Web Boilerplate",
 		"Discord.js pre-built project",
@@ -46,8 +46,10 @@ func showPrompt() string {
 		Label:    "{{ . }}",
 		Active:   "\U000027A4 {{ .| cyan }}",
 		Inactive: "  {{ . | blue }}",
-		Help:     "[Use arrow keys]",
+		Help:     "[Use arrow keys]",	
+	
 	}
+		
 
 	prompt := promptui.Select{
 		Label:     "\n?" + "" + " Choose one type of project",
