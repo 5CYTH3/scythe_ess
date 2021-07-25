@@ -1,7 +1,7 @@
 package cmd
 
-// ! Maybe put the prompt on create command to choose which project create with it. But flags will be useless !?
 // TODO : Add a persistent flag to init a repository
+// ! Multiple colors on the select prompt
 
 import (
 	"fmt"
@@ -19,14 +19,16 @@ var createCmd = &cobra.Command{
 	Short: "This CLI is used to generate boilerplate code for a lot of projects easily.",
 	Long:  `A CLI only made by Scythe and for Scythe to tidy up my work (Of course I am Scythe ! Contact me at Scythe@outlook.fr)`,
 	Run: func(cmd *cobra.Command, args []string) {
+		flagState, _ := cmd.Flags().GetBool("git")
 
-		promptValidation()
+		promptValidation(flagState)
 
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(createCmd)
+	createCmd.Flags().BoolP("git", "g", false, "Init a repository easily")
 
 }
 
@@ -68,8 +70,8 @@ func showPrompt() string {
 	return result
 }
 
-func promptValidation() {
-
+func promptValidation(flagState bool) {
+	color.HiYellow("\n?" + "" + " Choose one type of project")
 	typeProject := showPrompt()
 	path, err := os.Getwd()
 	if err != nil {
@@ -92,6 +94,12 @@ func promptValidation() {
 		projects.CreateDjsProject(rootDir)
 	} else if typeProject == "Golang pre-built project" {
 		projects.CreateGoProject(rootDir)
+	}
+
+	if flagState == true {
+		exec.Command("git", "init", rootDir)
+	} else {
+
 	}
 
 	exec.Command("code", rootDir).Start()
